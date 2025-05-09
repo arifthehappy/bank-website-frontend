@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { AGENT_Listener_URL } from '../config/constants';
 
+
+
 const api = axios.create({
-  baseURL: 'http://localhost:3001', // bank server
+  baseURL: 'https://w80khfvj-3001.inc1.devtunnels.ms/', // bank server
 });
 
 export const connectWithWallet = async () => {

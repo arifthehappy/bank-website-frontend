@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { usePermissionsStore } from "./permissions";
 
 
 interface Employee {
@@ -57,8 +58,14 @@ export const useAuthStore = create<AuthState>((set) => ({
   setConnection: (connection) =>
     set({ connection }),
 
-  logout: () =>
-    set({ isAuthenticated: false, employee: null, connection: null }),
+  logout: () => {
+    set({ isAuthenticated: false, employee: null, connection: null });
+    usePermissionsStore.getState().clearCredentials();
+    useConnectionResponse.getState().setConnectionResponse(null);
+    localStorage.removeItem("employee");
+    localStorage.removeItem("connection");
+    localStorage.removeItem("isAuthenticated");
+  },    
 
   clearError: () =>
     set({ error: null }),

@@ -6,14 +6,15 @@ import {
   Shield,
   LogOut,
   ChevronDown,
-  Briefcase,
   DollarSign,
 } from "lucide-react";
 import { useAuthStore } from "../store/auth";
+import { usePermissionsStore } from "../store/permissions";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const { employee, logout } = useAuthStore();
+  const { credentials } = usePermissionsStore();
 
   const handleLogout = () => {
     logout();
@@ -53,12 +54,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       permission: "assist_customers",
     },
     {
-      name: "Loan Applications",
-      path: "/loan-applications",
-      icon: <Briefcase className="mr-3 h-5 w-5" />,
-      permission: "process_loans",
-    },
-    {
       name: "Branch Management",
       path: "/branch-management",
       icon: <Building2 className="mr-3 h-5 w-5" />,
@@ -72,10 +67,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     },
   ];
 
-  // Filter pages based on the user's permissions
-  const accessiblePages = pages.filter((page) =>
-    employee?.permissions?.includes(page.permission)
+  // Check if delegation is allowed in any credential
+  const canDelegate = credentials.some(
+    (cred) => cred.delegation_allowed === true
   );
+
+  // Filter pages based on the user's permissions
+  // const accessiblePages = pages.filter((page) =>
+  //   employee?.permissions?.includes(page.permission)
+  // );
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -98,6 +98,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <ChevronDown size={16} />
                 </button>
               </div>
+              {canDelegate && (
+                <div className="whitespace-nowrap ml-4">
+                  <button
+                    className="flex items-center space-x-2 text-gray-700 hover:text-gray-900"
+                    // Add your delegate handler here
+                    onClick={() => {
+                      // Implement delegate logic or navigation
+                      alert("Delegate action triggered");
+                    }}
+                  >
+                    Delegate
+                  </button>
+                </div>
+              )}
               <button
                 onClick={handleLogout}
                 className="ml-4 p-2 text-gray-500 hover:text-gray-700"

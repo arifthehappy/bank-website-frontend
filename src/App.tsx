@@ -19,6 +19,8 @@ import CustomerSupport from "./pages/support/CustomerSupport";
 import Transactions from "./pages/transactions/Transactions";
 import Accounts from "./pages/accounts/Accounts";
 import Loans from "./pages/loans/Loans";
+import Delegate from "./pages/delegate/Delegate";
+import MyDelegations from "./pages/delegate/MyDelegations"; // Import MyDelegations
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -109,6 +111,26 @@ function App() {
             <ProtectedRoute>
               <Layout>
                 <Reports />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/delegate"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Delegate />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-delegations"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <MyDelegations />
               </Layout>
             </ProtectedRoute>
           }

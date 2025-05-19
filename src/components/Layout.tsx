@@ -7,6 +7,7 @@ import {
   LogOut,
   ChevronDown,
   DollarSign,
+  Share2, // Import Share2 icon for delegations
 } from "lucide-react";
 import { useAuthStore } from "../store/auth";
 import { usePermissionsStore } from "../store/permissions";
@@ -102,15 +103,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <div className="whitespace-nowrap ml-4">
                   <button
                     className="flex items-center space-x-2 text-gray-700 hover:text-gray-900"
-                    // Add your delegate handler here
                     onClick={() => {
-                      // Implement delegate logic or navigation
-                      alert("Delegate action triggered");
+                      // alert("Delegate action triggered");
+                      navigate("/delegate");
                     }}
                   >
                     Delegate
                   </button>
                 </div>
+              )}
+              {canDelegate && (
+                <Link
+                  to="/my-delegations"
+                  className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
+                >
+                  <Share2 className="mr-3 h-5 w-5" />
+                  My Delegations
+                </Link>
               )}
               <button
                 onClick={handleLogout}

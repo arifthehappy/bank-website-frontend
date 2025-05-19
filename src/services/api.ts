@@ -134,3 +134,25 @@ export const fetchAllEmployees = async () => {
   const response = await api.get('/auth/employees');
   return response.data;
 };
+
+export const delegatePermissions = async (delegationData: any, did: string) => {
+  const response = await api.post(`/auth/delegate/${did}`, delegationData);
+  console.log('Delegation response:', response);
+  return response;
+};
+
+export const fetchDelegationsByMe = async (employeeNumber: string) => {
+  // Assuming your backend endpoint is /auth/delegations/by-me/:employeeNumber
+  const response = await api.get(`/auth/delegations/by-me/${employeeNumber}`);
+  return response.data;
+};
+
+export const revokeDelegation = async (delegationId: string, requesterEmployeeNumber: string, requesterDid: string) => {
+  // Assuming your backend endpoint is /auth/delegations/revoke/:delegationId
+  // Using POST, but PUT or PATCH might also be appropriate depending on backend design
+  const response = await api.post(`/auth/delegations/revoke/${delegationId}`, {
+    requesterEmployeeNumber,
+    requesterDid,
+  });
+  return response.data;
+};
